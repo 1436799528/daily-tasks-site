@@ -28,8 +28,9 @@ export default function TaskCard({ task }: { task: Task }) {
       const userRef = doc(db, "users", user.uid);
       await updateDoc(userRef, {
         totalEarnings: increment(task.reward),
-        tasksCompleted: increment(1)
-        // weeklyEarnings and monthlyEarnings would be updated by a scheduled function
+        tasksCompleted: increment(1),
+        weeklyEarnings: increment(task.reward),
+        monthlyEarnings: increment(task.reward),
       });
       
       toast({ title: "Success!", description: "Task claimed successfully!" });
