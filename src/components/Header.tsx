@@ -15,7 +15,7 @@ export default function Header() {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      if (user) {
+      if (user && typeof window !== "undefined") { // Ensure this only runs on the client
         const userRef = doc(db, "users", user.uid);
         const userSnap = await getDoc(userRef);
         if (userSnap.exists()) {

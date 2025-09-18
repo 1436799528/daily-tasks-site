@@ -16,6 +16,7 @@ export default function Leaderboard() {
 
   useEffect(() => {
     const fetchTopUsers = async () => {
+        if (typeof window === "undefined") return; // Ensure this only runs on the client
         setIsLoading(true);
         try {
             const q = query(collection(db, "users"), orderBy("totalEarnings", "desc"), limit(10));

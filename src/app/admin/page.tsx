@@ -14,6 +14,7 @@ export default function Admin() {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchTasks = async () => {
+    if (typeof window === "undefined") return; // Ensure this only runs on the client
     setIsLoading(true);
     const q = query(collection(db, "tasks"), orderBy("createdAt", "desc"));
     const snapshot = await getDocs(q);

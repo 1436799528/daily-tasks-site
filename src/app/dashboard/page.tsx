@@ -13,6 +13,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     const fetchTasks = async () => {
+      if (typeof window === "undefined") return; // Ensure this only runs on the client
       setIsLoading(true);
       try {
         const q = query(collection(db, "tasks"), where("status", "==", "approved"));
