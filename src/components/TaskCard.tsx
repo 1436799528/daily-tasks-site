@@ -6,7 +6,7 @@ import type { Task } from "@/lib/data";
 import { DollarSign, Check, Loader2 } from "lucide-react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "@/lib/firebase";
-import { doc, updateDoc, increment } from "firebase/firestore";
+import { doc, updateDoc, increment, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 
@@ -15,6 +15,23 @@ export default function TaskCard({ task }: { task: Task }) {
   const { toast } = useToast();
   const [isClaiming, setIsClaiming] = useState(false);
 
+  const createUserDocumentIfNeeded = async (userId: string) => {
+    const userRef = doc(db, "users", userId);
+    const userSnap = await getDoc(userRef);
+    if (!userSnap.exists()) {
+      await setDoc(userRef, {
+        name: auth.currentUser?.displayName || "Anonymous",
+        email: auth.currentUser?.email,
+        avatarUrl: auth.currentUser?.photoURL || `https://i.pravatar.cc/40?u=${userId}`,
+        totalEarnings: 0,
+        tasksCompleted: 0,
+        weeklyEarnings: 0,
+        monthlyEarnings: 0,
+        createdAt: serverTimestamp(),
+      });
+    }
+  };
+
   const handleClaimTask = async () => {
     if (!user) {
       toast({ title: "Error", description: "You must be logged in to claim a task.", variant: "destructive" });
@@ -22,6 +39,8 @@ export default function TaskCard({ task }: { task: Task }) {
     }
     setIsClaiming(true);
     try {
+      await createUserDocumentIfNeeded(user.uid);
+
       const taskRef = doc(db, "tasks", task.id);
       await updateDoc(taskRef, { status: "completed", completedBy: user.uid });
 

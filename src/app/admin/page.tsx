@@ -21,7 +21,12 @@ export default function Admin() {
     try {
       const q = query(collection(db, "tasks"), orderBy("createdAt", "desc"));
       const snapshot = await getDocs(q);
-      setTasks(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Task[]);
+      if (snapshot.empty) {
+        console.log("No tasks found.");
+        setTasks([]);
+      } else {
+        setTasks(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Task[]);
+      }
     } catch (err) {
       console.error("Firebase error:", err);
       const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred.";
@@ -39,7 +44,8 @@ export default function Admin() {
     try {
       const taskRef = doc(db, "tasks", id);
       await updateDoc(taskRef, updates);
-      fetchTasks(); // Refetch to get the latest status
+      // Optimistically update UI or refetch
+      setTasks(tasks.map(t => t.id === id ? { ...t, ...updates } : t));
     } catch (err) {
       console.error("Error updating task:", err);
     }
@@ -62,7 +68,7 @@ export default function Admin() {
         {error && <p className="text-destructive">{error}</p>}
         {!isLoading && !error && (
         <div className="grid grid-cols-1 gap-4">
-          {tasks.map(task => (
+          {tasks.length > 0 ? tasks.map(task => (
             <Card key={task.id} className="bg-white p-4 rounded-xl shadow flex flex-col sm:flex-row justify-between sm:items-center">
               <div className="flex-grow">
                 <h2 className="font-semibold text-foreground">{task.title}</h2>
@@ -88,7 +94,7 @@ export default function Admin() {
                 </Button>
               </div>
             </Card>
-          ))}
+          )) : <p>No tasks to display.</p>}
         </div>
         )}
       </div>

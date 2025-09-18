@@ -23,8 +23,13 @@ export default function Leaderboard() {
         try {
             const q = query(collection(db, "users"), orderBy("totalEarnings", "desc"), limit(10));
             const snapshot = await getDocs(q);
-            const fetchedUsers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as User[];
-            setUsers(fetchedUsers);
+            if (snapshot.empty) {
+                console.log("No users found.");
+                setUsers([]);
+            } else {
+                const fetchedUsers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as User[];
+                setUsers(fetchedUsers);
+            }
         } catch (err) {
             console.error("Error fetching top users:", err);
             const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred.";
@@ -52,7 +57,7 @@ export default function Leaderboard() {
         {error && <p className="text-center text-destructive">{error}</p>}
         {!isLoading && !error && (
         <Card className="bg-white rounded-xl shadow-md divide-y">
-          {users.map((user, index) => (
+          {users.length > 0 ? users.map((user, index) => (
             <div key={user.id} className="flex justify-between items-center p-4 hover:bg-gray-50 transition">
               <div className="flex items-center gap-4">
                 <div className="w-8 text-center">{getTrophy(index)}</div>
@@ -74,7 +79,7 @@ export default function Leaderboard() {
               </div>
               <span className="font-semibold text-lg text-secondary">${(user.totalEarnings || 0).toLocaleString()}</span>
             </div>
-          ))}
+          )) : <p className="text-center p-4">Leaderboard is empty.</p>}
         </Card>
         )}
       </div>

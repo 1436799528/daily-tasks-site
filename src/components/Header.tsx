@@ -41,7 +41,7 @@ export default function Header() {
         </Avatar>
         <div>
             <h2 className="text-lg font-semibold text-foreground">Hello, {user?.displayName || "User"}</h2>
-            <p className="text-muted-foreground text-sm">Balance: <span className="text-secondary font-bold">${userData?.totalEarnings?.toLocaleString() || 0}</span></p>
+            <p className="text-muted-foreground text-sm">Balance: <span className="text-secondary font-bold">${(userData?.totalEarnings || 0).toLocaleString()}</span></p>
         </div>
       </div>
       <Button variant="ghost" size="icon">

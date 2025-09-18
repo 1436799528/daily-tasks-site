@@ -20,8 +20,13 @@ export default function Dashboard() {
       try {
         const q = query(collection(db, "tasks"), where("status", "==", "approved"));
         const querySnapshot = await getDocs(q);
-        const fetchedTasks = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Task[];
-        setTasks(fetchedTasks);
+        if (querySnapshot.empty) {
+          console.log("No approved tasks found.");
+          setTasks([]);
+        } else {
+          const fetchedTasks = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Task[];
+          setTasks(fetchedTasks);
+        }
       } catch (err) {
         console.error("Error fetching tasks: ", err);
         const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred.";
