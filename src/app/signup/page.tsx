@@ -9,9 +9,9 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import Logo from '@/components/logo';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
+import Navbar from '@/components/Navbar';
 
 export default function SignupPage() {
   const [name, setName] = useState('');
@@ -59,8 +59,10 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2">
-      <div className="hidden bg-muted lg:block">
+    <>
+    <Navbar />
+    <div className="w-full lg:grid lg:min-h-[calc(100vh-4rem)] lg:grid-cols-2">
+       <div className="hidden bg-muted lg:block">
         <Image
           src="https://picsum.photos/seed/2/1200/900"
           data-ai-hint="workspace desk"
@@ -73,8 +75,7 @@ export default function SignupPage() {
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
-            <Logo className="w-32 mx-auto" />
-            <h1 className="text-3xl font-bold font-headline mt-4">Create an account</h1>
+            <h1 className="text-3xl font-bold font-headline mt-4">Sign Up</h1>
             <p className="text-balance text-muted-foreground">
               Enter your information to get started
             </p>
@@ -94,7 +95,7 @@ export default function SignupPage() {
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Create an account
+              Sign Up
             </Button>
             <Button variant="outline" className="w-full" type="button" onClick={handleGoogleSignIn} disabled={isLoading}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -110,5 +111,6 @@ export default function SignupPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

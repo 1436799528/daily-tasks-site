@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import Logo from '@/components/logo';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
+import Navbar from '@/components/Navbar';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -58,12 +59,14 @@ export default function LoginPage() {
 
 
   return (
-    <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2">
+    <>
+    <Navbar />
+    <div className="w-full lg:grid lg:min-h-[calc(100vh-4rem)] lg:grid-cols-2">
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
-            <Logo className="w-32 mx-auto" />
-            <h1 className="text-3xl font-bold font-headline mt-4">Welcome back</h1>
+            
+            <h1 className="text-3xl font-bold font-headline mt-4">Login</h1>
             <p className="text-balance text-muted-foreground">
               Enter your credentials to access your account
             </p>
@@ -113,5 +116,6 @@ export default function LoginPage() {
         />
       </div>
     </div>
+    </>
   );
 }

@@ -53,7 +53,7 @@ export default function PostTask() {
 
   return (
     <ProtectedRoute>
-      <div className="max-w-2xl mx-auto mt-10">
+      <div className="max-w-2xl mx-auto py-10">
         <Card>
           <CardHeader>
             <CardTitle className="font-headline text-2xl">Post a Task</CardTitle>
@@ -75,7 +75,7 @@ export default function PostTask() {
               </div>
               <Button type="submit" className="w-full" disabled={isSubmitting || loading}>
                 {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Submit Task for Approval
+                Submit Task
               </Button>
             </form>
           </CardContent>

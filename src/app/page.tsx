@@ -8,6 +8,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { Loader2 } from "lucide-react";
 
 export default function Home() {
   const [user, loading] = useAuthState(auth);
@@ -23,7 +24,7 @@ export default function Home() {
   if (loading || user) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        {/* You can add a loader here */}
+        <Loader2 className="h-16 w-16 animate-spin text-primary" />
       </div>
     );
   }
@@ -32,7 +33,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <main className="flex-grow">
-        <section className="relative w-full h-[60vh] flex items-center justify-center text-center text-white">
+        <section className="relative w-full h-[70vh] flex items-center justify-center text-center text-white">
            <Image
             src="https://picsum.photos/seed/3/1800/1200"
             alt="Hero background"
@@ -41,9 +42,9 @@ export default function Home() {
             data-ai-hint="team productive"
           />
           <div className="p-6">
-            <h1 className="text-4xl md:text-6xl font-bold font-headline mb-4">The Future of Micro-Tasking is Here</h1>
+            <h1 className="text-4xl md:text-6xl font-bold font-headline mb-4">Tasking Platform</h1>
             <p className="text-lg md:text-xl mb-6 max-w-3xl mx-auto">
-              Post tasks, complete tasks, and earn rewards on a platform built for speed and reliability.
+              Post tasks, complete tasks, and earn rewards.
             </p>
             <Button size="lg" asChild>
               <Link href="/signup">Get Started</Link>
