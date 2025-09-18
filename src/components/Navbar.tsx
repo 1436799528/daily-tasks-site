@@ -17,20 +17,20 @@ export default function Navbar() {
   };
 
   return (
-    <header className="bg-white shadow-md px-6 py-4 flex justify-between items-center">
+    <header className="bg-white shadow-sm px-6 py-4 flex justify-between items-center">
       <Link href="/" className="text-2xl font-bold text-primary">TaskFlow</Link>
-      <div className="space-x-4 flex items-center">
+      <div className="space-x-2 flex items-center">
         {user ? (
           <>
-            <Button variant="link" asChild><Link href="/dashboard" className="text-foreground hover:text-primary">Dashboard</Link></Button>
-            <Button variant="link" asChild><Link href="/dashboard/tasks/new" className="text-foreground hover:text-primary">Post Task</Link></Button>
-            <Button variant="link" asChild><Link href="/leaderboard" className="text-foreground hover:text-primary">Leaderboard</Link></Button>
-            <Button variant="link" asChild><Link href="/admin" className="text-foreground hover:text-primary">Admin</Link></Button>
+            <Button variant="ghost" asChild><Link href="/dashboard" className="text-foreground hover:text-primary">Dashboard</Link></Button>
+            <Button variant="ghost" asChild><Link href="/dashboard/tasks/new" className="text-foreground hover:text-primary">Post Task</Link></Button>
+            <Button variant="ghost" asChild><Link href="/leaderboard" className="text-foreground hover:text-primary">Leaderboard</Link></Button>
+            <Button variant="ghost" asChild><Link href="/admin" className="text-foreground hover:text-primary">Admin</Link></Button>
             <Button variant="ghost" onClick={handleSignOut} className="text-destructive hover:text-destructive/80">Logout</Button>
           </>
         ) : (
           <>
-            <Button variant="link" asChild><Link href="/login" className="text-foreground hover:text-primary">Login</Link></Button>
+            <Button variant="ghost" asChild><Link href="/login" className="text-foreground hover:text-primary">Login</Link></Button>
             <Button asChild><Link href="/signup">Sign Up</Link></Button>
           </>
         )}

@@ -55,7 +55,7 @@ export default function PostTask() {
 
   return (
     <ProtectedRoute>
-       <div className="max-w-md mx-auto mt-10 bg-white p-8 rounded-xl shadow-md">
+       <div className="max-w-md mx-auto mt-10 bg-card p-8 rounded-xl shadow-md">
         <h1 className="text-2xl font-semibold mb-4 text-center">Post a Task</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input value={title} onChange={e => setTitle(e.target.value)} placeholder="Task Title" className="border p-2 w-full rounded" required />

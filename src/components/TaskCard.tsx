@@ -12,12 +12,12 @@ export default function TaskCard({ task }: { task: Task }) {
       <div>
         <div className="flex justify-between items-center mb-2">
             <CardTitle className="text-lg font-semibold text-foreground">{task.title}</CardTitle>
-            {task.isRecommended && <Badge variant="secondary" className="text-yellow-600 border-yellow-300 bg-yellow-50">Recommended</Badge>}
+            {task.recommended && <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 border-yellow-300">Recommended</Badge>}
         </div>
         <CardDescription className="text-muted-foreground mt-2">{task.description}</CardDescription>
       </div>
       <div className="mt-4 flex justify-between items-center">
-        <span className="text-accent-foreground font-bold flex items-center text-lg"><DollarSign className="h-5 w-5 mr-1 text-accent"/>{task.reward}</span>
+        <span className="text-accent font-bold flex items-center text-lg"><DollarSign className="h-5 w-5 mr-1 text-accent"/>{task.reward}</span>
         <Button className="font-medium">
           <Check className="mr-2 h-4 w-4"/>
           Claim Task

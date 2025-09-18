@@ -39,7 +39,10 @@ export default function Dashboard() {
             {tasks.map(task => <TaskCard key={task.id} task={task} />)}
           </div>
         ) : (
-          <p>No tasks available at the moment. Check back later!</p>
+          <div className="text-center py-10 bg-white rounded-xl shadow-md">
+            <h2 className="text-xl font-medium">No tasks available right now.</h2>
+            <p className="text-muted-foreground mt-2">Check back later for new opportunities!</p>
+          </div>
         )}
       </div>
     </ProtectedRoute>

@@ -3,12 +3,13 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from '@/components/AuthProvider';
-import { Inter } from 'next/font/google';
+import { Poppins } from 'next/font/google';
 import Navbar from '@/components/Navbar';
 
-const inter = Inter({
+const poppins = Poppins({
   subsets: ['latin'],
   variable: '--font-sans',
+  weight: ['400', '500', '600', '700'],
 });
 
 export const metadata: Metadata = {
@@ -23,10 +24,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn('min-h-screen bg-background font-sans antialiased', inter.variable)}>
+      <body className={cn('min-h-screen bg-background font-sans antialiased', poppins.variable)}>
         <AuthProvider>
-          <Navbar />
-          <main>{children}</main>
+          <div className="relative flex min-h-screen flex-col">
+            <Navbar />
+            <main className="flex-1">{children}</main>
+          </div>
         </AuthProvider>
         <Toaster />
       </body>

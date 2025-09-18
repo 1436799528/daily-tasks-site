@@ -40,6 +40,15 @@ export default function Admin() {
     }
   };
 
+  const getStatusClass = (status: string) => {
+    switch (status) {
+        case 'approved': return 'bg-green-100 text-green-800';
+        case 'pending': return 'bg-yellow-100 text-yellow-800';
+        case 'rejected': return 'bg-red-100 text-red-800';
+        default: return 'bg-gray-100 text-gray-800';
+    }
+  }
+
   return (
     <ProtectedRoute>
       <div className="max-w-5xl mx-auto p-6">
@@ -47,13 +56,13 @@ export default function Admin() {
         {isLoading ? <p>Loading tasks...</p> : (
         <div className="grid grid-cols-1 gap-4">
           {tasks.map(task => (
-            <Card key={task.id} className="bg-white p-4 rounded-xl shadow flex flex-col sm:flex-row justify-between sm:items-center">
+            <Card key={task.id} className="bg-card p-4 rounded-xl shadow flex flex-col sm:flex-row justify-between sm:items-center">
               <div className="flex-grow">
                 <h2 className="font-semibold text-foreground">{task.title}</h2>
                 <p className="text-muted-foreground text-sm">{task.description}</p>
                 <div className="flex items-center gap-2 mt-2">
-                    <span className="font-bold text-accent-foreground">${task.reward}</span>
-                    <Badge variant={getStatusVariant(task.status)}>{task.status}</Badge>
+                    <span className="font-bold text-accent">${task.reward}</span>
+                    <Badge variant="outline" className={getStatusClass(task.status)}>{task.status}</Badge>
                 </div>
               </div>
               <div className="flex flex-row sm:flex-col gap-2 mt-4 sm:mt-0 sm:ml-4 flex-shrink-0">
@@ -67,7 +76,7 @@ export default function Admin() {
                     </Button>
                   </>
                 )}
-                <Button size="sm" variant={task.recommended ? "default" : "outline"} className={`${task.recommended ? 'bg-yellow-500 text-white hover:bg-yellow-600' : 'bg-gray-200'}`} onClick={() => handleUpdate(task.id, { recommended: !task.recommended })}>
+                <Button size="sm" variant={task.recommended ? "default" : "outline"} className={`${task.recommended ? 'bg-yellow-400 text-yellow-900 hover:bg-yellow-500' : 'bg-gray-200'}`} onClick={() => handleUpdate(task.id, { recommended: !task.recommended })}>
                   {task.recommended ? "Unrecommend" : "Recommend"}
                 </Button>
               </div>
