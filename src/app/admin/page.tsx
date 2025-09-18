@@ -12,14 +12,23 @@ import type { Task } from "@/lib/data";
 export default function Admin() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchTasks = async () => {
-    if (typeof window === "undefined") return; // Ensure this only runs on the client
+    if (typeof window === "undefined") return;
     setIsLoading(true);
-    const q = query(collection(db, "tasks"), orderBy("createdAt", "desc"));
-    const snapshot = await getDocs(q);
-    setTasks(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Task[]);
-    setIsLoading(false);
+    setError(null);
+    try {
+      const q = query(collection(db, "tasks"), orderBy("createdAt", "desc"));
+      const snapshot = await getDocs(q);
+      setTasks(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Task[]);
+    } catch (err) {
+      console.error("Firebase error:", err);
+      const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred.";
+      setError(`Failed to load tasks: ${errorMessage}`);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -27,9 +36,13 @@ export default function Admin() {
   }, []);
 
   const handleUpdate = async (id: string, updates: Partial<Task>) => {
-    const taskRef = doc(db, "tasks", id);
-    await updateDoc(taskRef, updates);
-    fetchTasks(); // Refetch to get the latest status
+    try {
+      const taskRef = doc(db, "tasks", id);
+      await updateDoc(taskRef, updates);
+      fetchTasks(); // Refetch to get the latest status
+    } catch (err) {
+      console.error("Error updating task:", err);
+    }
   };
 
   const getStatusClass = (status: string) => {
@@ -45,7 +58,9 @@ export default function Admin() {
     <ProtectedRoute>
       <div className="max-w-5xl mx-auto p-6">
         <h1 className="text-3xl font-semibold mb-6">Admin Panel</h1>
-        {isLoading ? <p>Loading tasks...</p> : (
+        {isLoading && <p>Loading tasks...</p>}
+        {error && <p className="text-destructive">{error}</p>}
+        {!isLoading && !error && (
         <div className="grid grid-cols-1 gap-4">
           {tasks.map(task => (
             <Card key={task.id} className="bg-white p-4 rounded-xl shadow flex flex-col sm:flex-row justify-between sm:items-center">

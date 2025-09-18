@@ -15,11 +15,17 @@ export default function Header() {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      if (user && typeof window !== "undefined") { // Ensure this only runs on the client
-        const userRef = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userRef);
-        if (userSnap.exists()) {
-          setUserData(userSnap.data() as User);
+      if (user && typeof window !== "undefined") {
+        try {
+          const userRef = doc(db, "users", user.uid);
+          const userSnap = await getDoc(userRef);
+          if (userSnap.exists()) {
+            setUserData(userSnap.data() as User);
+          } else {
+            console.log("User document not found!");
+          }
+        } catch (error) {
+            console.error("Error fetching user data:", error);
         }
       }
     };

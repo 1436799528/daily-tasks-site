@@ -13,18 +13,22 @@ import { Badge } from "@/components/ui/badge";
 export default function Leaderboard() {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchTopUsers = async () => {
-        if (typeof window === "undefined") return; // Ensure this only runs on the client
+        if (typeof window === "undefined") return;
         setIsLoading(true);
+        setError(null);
         try {
             const q = query(collection(db, "users"), orderBy("totalEarnings", "desc"), limit(10));
             const snapshot = await getDocs(q);
             const fetchedUsers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as User[];
             setUsers(fetchedUsers);
-        } catch (error) {
-            console.error("Error fetching top users:", error);
+        } catch (err) {
+            console.error("Error fetching top users:", err);
+            const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred.";
+            setError(`Failed to load leaderboard: ${errorMessage}`);
         } finally {
             setIsLoading(false);
         }
@@ -44,7 +48,9 @@ export default function Leaderboard() {
     <ProtectedRoute>
       <div className="max-w-4xl mx-auto p-6">
         <h1 className="text-3xl font-bold mb-6 text-center text-foreground">Top Taskers</h1>
-        {isLoading ? <p className="text-center">Loading leaderboard...</p> : (
+        {isLoading && <p className="text-center">Loading leaderboard...</p>}
+        {error && <p className="text-center text-destructive">{error}</p>}
+        {!isLoading && !error && (
         <Card className="bg-white rounded-xl shadow-md divide-y">
           {users.map((user, index) => (
             <div key={user.id} className="flex justify-between items-center p-4 hover:bg-gray-50 transition">
