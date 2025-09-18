@@ -20,16 +20,20 @@ export default function TaskCard({ task }: { task: Task }) {
     const userRef = doc(db, "users", userId);
     const userSnap = await getDoc(userRef);
     if (!userSnap.exists()) {
-      await setDoc(userRef, {
-        name: auth.currentUser?.displayName || "Anonymous",
-        email: auth.currentUser?.email,
-        avatarUrl: auth.currentUser?.photoURL || `https://i.pravatar.cc/40?u=${userId}`,
-        totalEarnings: 0,
-        tasksCompleted: 0,
-        weeklyEarnings: 0,
-        monthlyEarnings: 0,
-        createdAt: serverTimestamp(),
-      });
+       try {
+        await setDoc(userRef, {
+            name: auth?.currentUser?.displayName || "Anonymous",
+            email: auth?.currentUser?.email,
+            avatarUrl: auth?.currentUser?.photoURL || `https://i.pravatar.cc/40?u=${userId}`,
+            totalEarnings: 0,
+            tasksCompleted: 0,
+            weeklyEarnings: 0,
+            monthlyEarnings: 0,
+            createdAt: serverTimestamp(),
+        });
+       } catch (error) {
+        console.error("Error creating user document:", error)
+       }
     }
   };
 
