@@ -38,6 +38,9 @@ export default function Navbar() {
                  <Button variant="ghost" asChild>
                   <Link href="/leaderboard">Leaderboard</Link>
                 </Button>
+                <Button variant="ghost" asChild>
+                  <Link href="/admin">Admin</Link>
+                </Button>
                 <Button variant="outline" onClick={handleSignOut}>
                   Logout
                 </Button>
