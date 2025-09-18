@@ -7,12 +7,11 @@ import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import Logo from '@/components/logo';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Chrome } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import Logo from '@/components/logo';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -28,7 +27,6 @@ export default function LoginPage() {
       await signInWithEmailAndPassword(auth, email, password);
       router.push('/dashboard');
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred.";
       toast({
         title: "Login Failed",
         description: "Please check your credentials and try again.",
@@ -60,32 +58,15 @@ export default function LoginPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-background p-4">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md bg-white p-6 rounded-xl shadow-md">
         <CardHeader className="text-center">
-           <div className="flex justify-center mb-4">
-            <Logo />
-          </div>
-          <CardTitle className="text-2xl font-bold font-headline">Welcome Back</CardTitle>
+          <CardTitle className="text-3xl font-semibold">Welcome Back</CardTitle>
           <CardDescription>Enter your credentials to access your account.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleLogin} className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="m@example.com" required value={email} onChange={(e) => setEmail(e.target.value)} />
-            </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-                <Link
-                  href="/forgot-password"
-                  className="ml-auto inline-block text-sm text-primary hover:underline"
-                >
-                  Forgot password?
-                </Link>
-              </div>
-              <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
-            </div>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <Input id="email" type="email" placeholder="Email" required value={email} onChange={(e) => setEmail(e.target.value)} className="border p-2 w-full rounded" />
+            <Input id="password" type="password" required value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} className="border p-2 w-full rounded" />
             <Button type="submit" className="w-full font-medium" disabled={isLoading}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Login
@@ -94,16 +75,11 @@ export default function LoginPage() {
           <Separator className="my-6" />
            <Button variant="outline" className="w-full font-medium" onClick={handleGoogleSignIn} type="button" disabled={isLoading}>
               {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Chrome className="mr-2" /> }
-              Login with Google
+              Continue with Google
             </Button>
         </CardContent>
-        <CardFooter className="text-center text-sm text-muted-foreground justify-center">
-          <p>
-            Don&apos;t have an account?{' '}
-            <Link href="/signup" className="text-primary hover:underline font-medium">
-              Sign up
-            </Link>
-          </p>
+        <CardFooter className="text-center text-sm text-muted-foreground justify-center mt-4">
+            <p>Don't have an account? <Link href="/signup" className="text-primary hover:underline font-medium">Sign up</Link></p>
         </CardFooter>
       </Card>
     </div>

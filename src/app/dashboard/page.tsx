@@ -1,5 +1,6 @@
 "use client";
 
+import ProtectedRoute from "@/components/ProtectedRoute";
 import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
@@ -20,7 +21,6 @@ export default function Dashboard() {
         setTasks(fetchedTasks);
       } catch (error) {
         console.error("Error fetching tasks: ", error);
-        // Here you could set an error state and display a message to the user
       } finally {
         setIsLoading(false);
       }
@@ -29,21 +29,19 @@ export default function Dashboard() {
   }, []);
 
   return (
-      <div>
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold font-headline">Available Tasks</h1>
-          <p className="text-muted-foreground mt-1">Browse tasks and start earning today.</p>
-        </div>
-        
+    <ProtectedRoute>
+      <div className="p-6 max-w-7xl mx-auto">
+        <h1 className="text-2xl font-semibold mb-6">Available Tasks</h1>
         {isLoading ? (
           <p>Loading tasks...</p>
         ) : tasks.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {tasks.map(task => <TaskCard key={task.id} task={task} />)}
           </div>
         ) : (
           <p>No tasks available at the moment. Check back later!</p>
         )}
       </div>
+    </ProtectedRoute>
   );
 }

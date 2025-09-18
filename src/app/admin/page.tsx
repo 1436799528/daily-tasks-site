@@ -4,12 +4,10 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import { useState, useEffect } from "react";
 import { db } from "@/lib/firebase";
 import { collection, getDocs, updateDoc, doc, query, orderBy } from "firebase/firestore";
-import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Task } from "@/lib/data";
-import { Loader2 } from "lucide-react";
+import type { Task } from "@/lib/data";
 
 export default function Admin() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -32,7 +30,7 @@ export default function Admin() {
     await updateDoc(taskRef, updates);
     setTasks(tasks.map(t => t.id === id ? { ...t, ...updates } as Task : t));
   };
-  
+
   const getStatusVariant = (status: string) => {
     switch (status) {
       case 'approved': return 'secondary';
@@ -40,28 +38,20 @@ export default function Admin() {
       case 'rejected': return 'destructive';
       default: return 'outline';
     }
-  }
+  };
 
   return (
     <ProtectedRoute>
-      <Navbar />
-      <div className="container max-w-5xl mx-auto py-10">
-        <div className="text-left mb-8">
-            <h1 className="text-3xl font-bold font-headline">Admin Panel</h1>
-            <p className="text-muted-foreground mt-2">Approve, reject, and manage all user-submitted tasks.</p>
-        </div>
-         {isLoading ? (
-          <div className="flex justify-center items-center h-64">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          </div>
-        ) : (
-        <div className="space-y-4">
+      <div className="max-w-5xl mx-auto p-6">
+        <h1 className="text-2xl font-semibold mb-6">Admin Panel</h1>
+        {isLoading ? <p>Loading tasks...</p> : (
+        <div className="grid grid-cols-1 gap-4">
           {tasks.map(task => (
-            <Card key={task.id} className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 rounded-xl">
+            <Card key={task.id} className="bg-white p-4 rounded-xl shadow flex flex-col sm:flex-row justify-between sm:items-center">
               <div className="flex-grow">
-                <h2 className="font-semibold text-lg text-card-foreground">{task.title}</h2>
-                <p className="text-sm text-muted-foreground mt-1">{task.description}</p>
-                <div className="flex items-center gap-4 mt-2">
+                <h2 className="font-semibold text-foreground">{task.title}</h2>
+                <p className="text-muted-foreground text-sm">{task.description}</p>
+                <div className="flex items-center gap-2 mt-2">
                     <span className="font-bold text-accent-foreground">${task.reward}</span>
                     <Badge variant={getStatusVariant(task.status)}>{task.status}</Badge>
                 </div>
@@ -69,7 +59,7 @@ export default function Admin() {
               <div className="flex flex-row sm:flex-col gap-2 mt-4 sm:mt-0 sm:ml-4 flex-shrink-0">
                 {task.status === "pending" && (
                   <>
-                    <Button size="sm" variant="secondary" onClick={() => handleUpdate(task.id, { status: "approved" })}>
+                    <Button size="sm" variant="secondary" className="bg-green-600 text-white hover:bg-green-700" onClick={() => handleUpdate(task.id, { status: "approved" })}>
                       Approve
                     </Button>
                     <Button size="sm" variant="destructive" onClick={() => handleUpdate(task.id, { status: "rejected" })}>
@@ -77,7 +67,7 @@ export default function Admin() {
                     </Button>
                   </>
                 )}
-                <Button size="sm" variant={task.recommended ? "default" : "outline"} onClick={() => handleUpdate(task.id, { recommended: !task.recommended })}>
+                <Button size="sm" variant={task.recommended ? "default" : "outline"} className={`${task.recommended ? 'bg-yellow-500 text-white hover:bg-yellow-600' : 'bg-gray-200'}`} onClick={() => handleUpdate(task.id, { recommended: !task.recommended })}>
                   {task.recommended ? "Unrecommend" : "Recommend"}
                 </Button>
               </div>

@@ -17,46 +17,23 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center">
-        <div className="mr-4 hidden md:flex">
-          <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Logo />
-          </Link>
-        </div>
-
-        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-          <nav className="flex items-center space-x-2">
-            {user ? (
-              <>
-                <Button variant="ghost" asChild>
-                  <Link href="/dashboard">Dashboard</Link>
-                </Button>
-                <Button variant="ghost" asChild>
-                  <Link href="/dashboard/tasks/new">Post Task</Link>
-                </Button>
-                 <Button variant="ghost" asChild>
-                  <Link href="/leaderboard">Leaderboard</Link>
-                </Button>
-                <Button variant="ghost" asChild>
-                  <Link href="/admin">Admin</Link>
-                </Button>
-                <Button variant="outline" onClick={handleSignOut}>
-                  Logout
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button variant="ghost" asChild>
-                  <Link href="/login">Login</Link>
-                </Button>
-                <Button asChild>
-                  <Link href="/signup">Sign Up</Link>
-                </Button>
-              </>
-            )}
-          </nav>
-        </div>
+    <header className="bg-white shadow-md px-6 py-4 flex justify-between items-center">
+      <Link href="/" className="text-2xl font-bold text-primary">TaskFlow</Link>
+      <div className="space-x-4 flex items-center">
+        {user ? (
+          <>
+            <Button variant="link" asChild><Link href="/dashboard" className="text-foreground hover:text-primary">Dashboard</Link></Button>
+            <Button variant="link" asChild><Link href="/dashboard/tasks/new" className="text-foreground hover:text-primary">Post Task</Link></Button>
+            <Button variant="link" asChild><Link href="/leaderboard" className="text-foreground hover:text-primary">Leaderboard</Link></Button>
+            <Button variant="link" asChild><Link href="/admin" className="text-foreground hover:text-primary">Admin</Link></Button>
+            <Button variant="ghost" onClick={handleSignOut} className="text-destructive hover:text-destructive/80">Logout</Button>
+          </>
+        ) : (
+          <>
+            <Button variant="link" asChild><Link href="/login" className="text-foreground hover:text-primary">Login</Link></Button>
+            <Button asChild><Link href="/signup">Sign Up</Link></Button>
+          </>
+        )}
       </div>
     </header>
   );

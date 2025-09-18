@@ -8,10 +8,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
-import Navbar from "@/components/Navbar";
 
 export default function PostTask() {
   const [user, loading] = useAuthState(auth);
@@ -27,6 +25,10 @@ export default function PostTask() {
       toast({ title: "Error", description: "You must be logged in to post a task.", variant: "destructive" });
       return;
     }
+    if (!title || !description || !reward) {
+      toast({ title: "Error", description: "Please fill out all fields.", variant: "destructive" });
+      return;
+    }
     setIsSubmitting(true);
     try {
       await addDoc(collection(db, "tasks"), {
@@ -38,7 +40,7 @@ export default function PostTask() {
         recommended: false,
         createdAt: serverTimestamp()
       });
-      toast({ title: "Success!", description: "Your task has been submitted for approval." });
+      toast({ title: "Success!", description: "Task submitted for approval!" });
       setTitle("");
       setDescription("");
       setReward("");
@@ -53,34 +55,17 @@ export default function PostTask() {
 
   return (
     <ProtectedRoute>
-       <Navbar />
-      <div className="container max-w-2xl py-10">
-        <Card className="rounded-xl">
-          <CardHeader>
-            <CardTitle className="font-headline text-2xl">Post a New Task</CardTitle>
-            <CardDescription>Fill in the details below to get your task completed by the community.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-2">
-                <label htmlFor="title">Task Title</label>
-                <Input id="title" value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g., Design a new logo" required />
-              </div>
-              <div className="space-y-2">
-                <label htmlFor="description">Task Description</label>
-                <Textarea id="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Provide a detailed description of the task..." required />
-              </div>
-              <div className="space-y-2">
-                <label htmlFor="reward">Reward ($)</label>
-                <Input id="reward" value={reward} onChange={e => setReward(e.target.value)} placeholder="e.g., 100" type="number" required min="1" />
-              </div>
-              <Button type="submit" className="w-full font-medium text-lg py-6" disabled={isSubmitting || loading}>
-                {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Submit for Approval
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+       <div className="max-w-md mx-auto mt-10 bg-white p-8 rounded-xl shadow-md">
+        <h1 className="text-2xl font-semibold mb-4 text-center">Post a Task</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Input value={title} onChange={e => setTitle(e.target.value)} placeholder="Task Title" className="border p-2 w-full rounded" required />
+          <Textarea value={description} onChange={e => setDescription(e.target.value)} placeholder="Task Description" className="border p-2 w-full rounded" required />
+          <Input value={reward} onChange={e => setReward(e.target.value)} placeholder="Reward ($)" type="number" min="1" className="border p-2 w-full rounded" required />
+          <Button type="submit" className="font-medium w-full" disabled={isSubmitting || loading}>
+            {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Submit Task
+          </Button>
+        </form>
       </div>
     </ProtectedRoute>
   );
