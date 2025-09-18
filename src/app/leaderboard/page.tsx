@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import type { User } from "@/lib/data";
 import { Crown, Trophy, Medal } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 export default function Leaderboard() {
   const [users, setUsers] = useState<User[]>([]);
@@ -52,7 +53,17 @@ export default function Leaderboard() {
                   <AvatarImage src={user.avatarUrl} alt={user.name || "User"} />
                   <AvatarFallback>{user.name ? user.name.charAt(0) : "U"}</AvatarFallback>
                 </Avatar>
-                <span className="text-foreground font-medium">{user.name || "Anonymous User"}</span>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+                    <span className="text-foreground font-medium">{user.name || "Anonymous User"}</span>
+                    <div className="flex gap-2 mt-1 sm:mt-0">
+                        {user.weeklyTop && (
+                            <Badge variant="default" className="bg-primary text-primary-foreground">Top This Week</Badge>
+                        )}
+                        {user.monthlyTop && (
+                            <Badge variant="secondary" className="bg-accent text-accent-foreground">Top This Month</Badge>
+                        )}
+                    </div>
+                </div>
               </div>
               <span className="font-semibold text-lg text-secondary">${(user.totalEarnings || 0).toLocaleString()}</span>
             </div>

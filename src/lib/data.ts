@@ -1,4 +1,4 @@
-import { Award, CheckCircle, FileText, User, XCircle } from "lucide-react"
+import { Award, CheckCircle, FileText, User as UserIcon, XCircle } from "lucide-react"
 
 export type Task = {
   id: string
@@ -27,14 +27,18 @@ export type User = {
   avatarUrl: string
   email: string
   tasksCompleted: number
-  totalEarnings: number
+  totalEarnings: number;
+  weeklyEarnings?: number;
+  monthlyEarnings?: number;
+  weeklyTop?: boolean;
+  monthlyTop?: boolean;
 }
 
 export const users: User[] = [
   { id: 'USR-001', name: 'Alex Johnson', avatarUrl: 'https://i.pravatar.cc/40?u=usr-001', email: 'alex@example.com', tasksCompleted: 12, totalEarnings: 1250 },
   { id: 'USR-002', name: 'Maria Garcia', avatarUrl: 'https://i.pravatar.cc/40?u=usr-002', email: 'maria@example.com', tasksCompleted: 8, totalEarnings: 820 },
-  { id: 'USR-003', name: 'David Smith', avatarUrl: 'https://i.pravatar.cc/40?u=usr-003', email: 'david@example.com', tasksCompleted: 21, totalEarnings: 2300 },
-  { id: 'USR-004', name: 'Sarah Chen', avatarUrl: 'https://i.pravatar.cc/40?u=usr-004', email: 'sarah@example.com', tasksCompleted: 15, totalEarnings: 1800 },
+  { id: 'USR-003', name: 'David Smith', avatarUrl: 'https://i.pravatar.cc/40?u=usr-003', email: 'david@example.com', tasksCompleted: 21, totalEarnings: 2300, monthlyTop: true },
+  { id: 'USR-004', name: 'Sarah Chen', avatarUrl: 'https://i.pravatar.cc/40?u=usr-004', email: 'sarah@example.com', tasksCompleted: 15, totalEarnings: 1800, weeklyTop: true },
   { id: 'USR-005', name: 'Michael Brown', avatarUrl: 'https://i.pravatar.cc/40?u=usr-005', email: 'michael@example.com', tasksCompleted: 5, totalEarnings: 450 },
 
 ]
@@ -89,7 +93,7 @@ export const notifications: Notification[] = [
     },
     {
         id: '4',
-        icon: User,
+        icon: UserIcon,
         title: 'New user "Jane Doe" joined',
         description: 'Welcome our new community member!',
         date: '5 days ago',
