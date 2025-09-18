@@ -17,6 +17,7 @@ export default function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
 
@@ -40,7 +41,7 @@ export default function SignupPage() {
   };
   
   const handleGoogleSignIn = async () => {
-    setIsLoading(true);
+    setIsGoogleLoading(true);
     const provider = new GoogleAuthProvider();
     try {
         await signInWithPopup(auth, provider);
@@ -53,13 +54,13 @@ export default function SignupPage() {
             variant: "destructive",
         });
     } finally {
-        setIsLoading(false);
+        setIsGoogleLoading(false);
     }
   };
 
   return (
      <div className="flex items-center justify-center min-h-screen bg-background p-4">
-      <Card className="w-full max-w-md bg-white p-6 rounded-xl shadow-md">
+      <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-3xl font-semibold">Create an Account</CardTitle>
           <CardDescription>Join our community and start earning today.</CardDescription>
@@ -69,18 +70,18 @@ export default function SignupPage() {
             <Input id="name" placeholder="Full Name" required value={name} onChange={(e) => setName(e.target.value)} className="w-full" />
             <Input id="email" type="email" placeholder="Email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full" />
             <Input id="password" type="password" required value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} className="w-full" />
-            <Button type="submit" className="w-full font-medium" disabled={isLoading}>
+            <Button type="submit" className="w-full font-medium" disabled={isLoading || isGoogleLoading}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Sign Up
             </Button>
           </form>
           <Separator className="my-6" />
-           <Button variant="outline" className="w-full font-medium" onClick={handleGoogleSignIn} type="button" disabled={isLoading}>
-              {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Chrome className="mr-2" /> }
+           <Button variant="outline" className="w-full font-medium" onClick={handleGoogleSignIn} type="button" disabled={isLoading || isGoogleLoading}>
+              {isGoogleLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Chrome className="mr-2" /> }
               Continue with Google
             </Button>
         </CardContent>
-        <CardFooter className="text-center text-sm text-muted-foreground justify-center mt-4">
+        <CardFooter className="text-center text-sm text-muted-foreground justify-center">
             <p>Already have an account? <Link href="/login" className="text-primary hover:underline font-medium">Log in</Link></p>
         </CardFooter>
       </Card>
