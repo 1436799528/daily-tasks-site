@@ -43,9 +43,9 @@ Task Poster Account History: {{{taskPosterAccountHistory}}}
 
 Based on these factors, determine whether the task is appropriate and should be approved.
 
-Set the \"approved\" output field to true if the task is approved, and false if it is rejected.
+Set the "approved" output field to true if the task is approved, and false if it is rejected.
 
-Provide a clear and concise reason for your decision in the \"reason\" output field.`,
+Provide a clear and concise reason for your decision in the "reason" output field.`,
 });
 
 const approveTaskFlow = ai.defineFlow(
