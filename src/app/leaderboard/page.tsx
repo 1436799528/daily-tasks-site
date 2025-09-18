@@ -9,7 +9,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import type { User } from "@/lib/data";
 import { Crown, Trophy, Medal } from "lucide-react";
 
-
 export default function Leaderboard() {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -34,19 +33,19 @@ export default function Leaderboard() {
   const getTrophy = (index: number) => {
     if (index === 0) return <Crown className="h-6 w-6 text-yellow-500" />;
     if (index === 1) return <Trophy className="h-6 w-6 text-slate-400" />;
-    if (index === 2) return <Medal className="h-6 w-6 text-yellow-700" />;
-    return <span className="font-bold text-slate-600">{index + 1}.</span>;
+    if (index === 2) return <Medal className="h-6 w-6 text-orange-400" />;
+    return <span className="font-bold text-muted-foreground">{index + 1}.</span>;
   };
 
 
   return (
     <ProtectedRoute>
       <div className="max-w-4xl mx-auto p-6">
-        <h1 className="text-3xl font-bold mb-6 text-center">Top Taskers</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center text-foreground">Top Taskers</h1>
         {isLoading ? <p className="text-center">Loading leaderboard...</p> : (
-        <Card className="bg-card rounded-xl shadow-md divide-y">
+        <Card className="bg-white rounded-xl shadow-md divide-y">
           {users.map((user, index) => (
-            <div key={user.id} className="flex justify-between items-center p-4 hover:bg-slate-50 transition">
+            <div key={user.id} className="flex justify-between items-center p-4 hover:bg-gray-50 transition">
               <div className="flex items-center gap-4">
                 <div className="w-8 text-center">{getTrophy(index)}</div>
                 <Avatar>
@@ -55,7 +54,7 @@ export default function Leaderboard() {
                 </Avatar>
                 <span className="text-foreground font-medium">{user.name || "Anonymous User"}</span>
               </div>
-              <span className="font-semibold text-lg text-accent">${(user.totalEarnings || 0).toLocaleString()}</span>
+              <span className="font-semibold text-lg text-secondary">${(user.totalEarnings || 0).toLocaleString()}</span>
             </div>
           ))}
         </Card>

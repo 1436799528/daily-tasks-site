@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { db } from "@/lib/firebase";
 import { collection, getDocs, updateDoc, doc, query, orderBy } from "firebase/firestore";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { Task } from "@/lib/data";
 
@@ -28,47 +28,38 @@ export default function Admin() {
   const handleUpdate = async (id: string, updates: Partial<Task>) => {
     const taskRef = doc(db, "tasks", id);
     await updateDoc(taskRef, updates);
-    setTasks(tasks.map(t => t.id === id ? { ...t, ...updates } as Task : t));
-  };
-
-  const getStatusVariant = (status: string) => {
-    switch (status) {
-      case 'approved': return 'secondary';
-      case 'pending': return 'default';
-      case 'rejected': return 'destructive';
-      default: return 'outline';
-    }
+    fetchTasks(); // Refetch to get the latest status
   };
 
   const getStatusClass = (status: string) => {
     switch (status) {
-        case 'approved': return 'bg-green-100 text-green-800';
-        case 'pending': return 'bg-yellow-100 text-yellow-800';
-        case 'rejected': return 'bg-red-100 text-red-800';
-        default: return 'bg-gray-100 text-gray-800';
+        case 'approved': return 'bg-secondary/20 text-secondary-foreground';
+        case 'pending': return 'bg-accent/20 text-accent-foreground';
+        case 'rejected': return 'bg-destructive/20 text-destructive-foreground';
+        default: return 'bg-muted text-muted-foreground';
     }
   }
 
   return (
     <ProtectedRoute>
       <div className="max-w-5xl mx-auto p-6">
-        <h1 className="text-2xl font-semibold mb-6">Admin Panel</h1>
+        <h1 className="text-3xl font-semibold mb-6">Admin Panel</h1>
         {isLoading ? <p>Loading tasks...</p> : (
         <div className="grid grid-cols-1 gap-4">
           {tasks.map(task => (
-            <Card key={task.id} className="bg-card p-4 rounded-xl shadow flex flex-col sm:flex-row justify-between sm:items-center">
+            <Card key={task.id} className="bg-white p-4 rounded-xl shadow flex flex-col sm:flex-row justify-between sm:items-center">
               <div className="flex-grow">
                 <h2 className="font-semibold text-foreground">{task.title}</h2>
                 <p className="text-muted-foreground text-sm">{task.description}</p>
-                <div className="flex items-center gap-2 mt-2">
-                    <span className="font-bold text-accent">${task.reward}</span>
+                <div className="flex items-center gap-4 mt-2">
+                    <span className="font-bold text-secondary">${task.reward}</span>
                     <Badge variant="outline" className={getStatusClass(task.status)}>{task.status}</Badge>
                 </div>
               </div>
               <div className="flex flex-row sm:flex-col gap-2 mt-4 sm:mt-0 sm:ml-4 flex-shrink-0">
                 {task.status === "pending" && (
                   <>
-                    <Button size="sm" variant="secondary" className="bg-green-600 text-white hover:bg-green-700" onClick={() => handleUpdate(task.id, { status: "approved" })}>
+                    <Button size="sm" variant="secondary" onClick={() => handleUpdate(task.id, { status: "approved" })}>
                       Approve
                     </Button>
                     <Button size="sm" variant="destructive" onClick={() => handleUpdate(task.id, { status: "rejected" })}>
@@ -76,7 +67,7 @@ export default function Admin() {
                     </Button>
                   </>
                 )}
-                <Button size="sm" variant={task.recommended ? "default" : "outline"} className={`${task.recommended ? 'bg-yellow-400 text-yellow-900 hover:bg-yellow-500' : 'bg-gray-200'}`} onClick={() => handleUpdate(task.id, { recommended: !task.recommended })}>
+                <Button size="sm" variant={task.recommended ? "default" : "outline"} className={`${task.recommended ? 'bg-accent text-accent-foreground hover:bg-accent/90' : 'bg-gray-200'}`} onClick={() => handleUpdate(task.id, { recommended: !task.recommended })}>
                   {task.recommended ? "Unrecommend" : "Recommend"}
                 </Button>
               </div>

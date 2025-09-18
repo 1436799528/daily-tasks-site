@@ -31,7 +31,7 @@ export default function Dashboard() {
   return (
     <ProtectedRoute>
       <div className="p-6 max-w-7xl mx-auto">
-        <h1 className="text-2xl font-semibold mb-6">Available Tasks</h1>
+        <h1 className="text-3xl font-semibold mb-6 text-foreground">Available Tasks</h1>
         {isLoading ? (
           <p>Loading tasks...</p>
         ) : tasks.length > 0 ? (

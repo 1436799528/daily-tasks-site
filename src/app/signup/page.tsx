@@ -59,16 +59,16 @@ export default function SignupPage() {
 
   return (
      <div className="flex items-center justify-center min-h-screen bg-background p-4">
-      <Card className="w-full max-w-md bg-card p-6 rounded-xl shadow-md">
+      <Card className="w-full max-w-md bg-white p-6 rounded-xl shadow-md">
         <CardHeader className="text-center">
           <CardTitle className="text-3xl font-semibold">Create an Account</CardTitle>
           <CardDescription>Join our community and start earning today.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSignUp} className="space-y-4">
-            <Input id="name" placeholder="Full Name" required value={name} onChange={(e) => setName(e.target.value)} className="border p-2 w-full rounded" />
-            <Input id="email" type="email" placeholder="Email" required value={email} onChange={(e) => setEmail(e.target.value)} className="border p-2 w-full rounded" />
-            <Input id="password" type="password" required value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} className="border p-2 w-full rounded" />
+            <Input id="name" placeholder="Full Name" required value={name} onChange={(e) => setName(e.target.value)} className="w-full" />
+            <Input id="email" type="email" placeholder="Email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full" />
+            <Input id="password" type="password" required value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} className="w-full" />
             <Button type="submit" className="w-full font-medium" disabled={isLoading}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Sign Up

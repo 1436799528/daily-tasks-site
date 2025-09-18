@@ -28,7 +28,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center text-center py-20 px-4">
+    <div className="flex flex-col items-center justify-center text-center py-32 px-4 bg-background">
       <h1 className="text-5xl font-bold text-foreground mb-4">Welcome to TaskFlow</h1>
       <p className="text-muted-foreground text-lg mb-6 max-w-xl">
         Complete tasks, earn rewards, and grow your earnings. TaskFlow is simple, friendly, and fully responsive.
