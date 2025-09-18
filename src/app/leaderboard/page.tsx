@@ -17,7 +17,9 @@ export default function Leaderboard() {
 
   useEffect(() => {
     const fetchTopUsers = async () => {
-        if (typeof window === "undefined") return;
+        if (typeof window === "undefined") {
+            return;
+        }
         setIsLoading(true);
         setError(null);
         try {

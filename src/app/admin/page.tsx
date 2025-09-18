@@ -14,29 +14,31 @@ export default function Admin() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchTasks = async () => {
-    if (typeof window === "undefined") return;
-    setIsLoading(true);
-    setError(null);
-    try {
-      const q = query(collection(db, "tasks"), orderBy("createdAt", "desc"));
-      const snapshot = await getDocs(q);
-      if (snapshot.empty) {
-        console.log("No tasks found.");
-        setTasks([]);
-      } else {
-        setTasks(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Task[]);
-      }
-    } catch (err) {
-      console.error("Firebase error:", err);
-      const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred.";
-      setError(`Failed to load tasks: ${errorMessage}`);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchTasks = async () => {
+      if (typeof window === "undefined") {
+        return;
+      }
+      setIsLoading(true);
+      setError(null);
+      try {
+        const q = query(collection(db, "tasks"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
+        if (snapshot.empty) {
+          console.log("No tasks found.");
+          setTasks([]);
+        } else {
+          setTasks(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Task[]);
+        }
+      } catch (err) {
+        console.error("Firebase error:", err);
+        const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred.";
+        setError(`Failed to load tasks: ${errorMessage}`);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     fetchTasks();
   }, []);
 
