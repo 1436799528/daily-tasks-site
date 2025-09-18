@@ -15,7 +15,7 @@ export default function Header() {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      if (user && typeof window !== "undefined") {
+      if (user && typeof window !== "undefined" && db) {
         try {
           const userRef = doc(db, "users", user.uid);
           const userSnap = await getDoc(userRef);

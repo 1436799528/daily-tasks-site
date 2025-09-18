@@ -14,7 +14,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     const fetchTasks = async () => {
-      if (typeof window === "undefined") {
+      if (typeof window === "undefined" || !db) {
         return;
       }
       setIsLoading(true);

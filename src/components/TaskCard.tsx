@@ -16,6 +16,7 @@ export default function TaskCard({ task }: { task: Task }) {
   const [isClaiming, setIsClaiming] = useState(false);
 
   const createUserDocumentIfNeeded = async (userId: string) => {
+    if (!db) return;
     const userRef = doc(db, "users", userId);
     const userSnap = await getDoc(userRef);
     if (!userSnap.exists()) {
@@ -33,7 +34,7 @@ export default function TaskCard({ task }: { task: Task }) {
   };
 
   const handleClaimTask = async () => {
-    if (!user) {
+    if (!user || !db) {
       toast({ title: "Error", description: "You must be logged in to claim a task.", variant: "destructive" });
       return;
     }

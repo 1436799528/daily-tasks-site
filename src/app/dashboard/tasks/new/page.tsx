@@ -21,7 +21,7 @@ export default function PostTask() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) {
+    if (!user || !db) {
       toast({ title: "Error", description: "You must be logged in to post a task.", variant: "destructive" });
       return;
     }

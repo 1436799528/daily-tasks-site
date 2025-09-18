@@ -16,7 +16,7 @@ export default function Admin() {
 
   useEffect(() => {
     const fetchTasks = async () => {
-      if (typeof window === "undefined") {
+      if (typeof window === "undefined" || !db) {
         return;
       }
       setIsLoading(true);
@@ -43,6 +43,7 @@ export default function Admin() {
   }, []);
 
   const handleUpdate = async (id: string, updates: Partial<Task>) => {
+    if (!db) return;
     try {
       const taskRef = doc(db, "tasks", id);
       await updateDoc(taskRef, updates);
