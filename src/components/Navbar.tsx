@@ -4,37 +4,57 @@ import Link from "next/link";
 import { auth } from "../lib/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Button } from "./ui/button";
+import Logo from "./logo";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [user] = useAuthState(auth);
+  const router = useRouter();
+
+  const handleSignOut = () => {
+    auth.signOut();
+    router.push('/');
+  };
 
   return (
-    <nav className="bg-gray-800 text-white p-4 flex justify-between items-center">
-      <Link href="/" className="font-bold text-xl">Tasking Platform</Link>
-      <div className="space-x-4 flex items-center">
-        {user ? (
-          <>
-            <Button variant="ghost" asChild className="text-white hover:bg-gray-700">
-              <Link href="/dashboard">Dashboard</Link>
-            </Button>
-            <Button variant="ghost" asChild className="text-white hover:bg-gray-700">
-              <Link href="/dashboard/tasks/new">Post Task</Link>
-            </Button>
-            <Button variant="outline" onClick={() => auth.signOut()} className="border-white text-white hover:bg-white hover:text-gray-800">
-              Logout
-            </Button>
-          </>
-        ) : (
-          <>
-            <Button variant="ghost" asChild className="text-white hover:bg-gray-700">
-              <Link href="/login">Login</Link>
-            </Button>
-            <Button asChild className="bg-blue-600 hover:bg-blue-700">
-              <Link href="/signup">Sign Up</Link>
-            </Button>
-          </>
-        )}
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-14 items-center">
+        <div className="mr-4 hidden md:flex">
+          <Link href="/" className="mr-6 flex items-center space-x-2">
+            <Logo />
+          </Link>
+        </div>
+
+        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+          <nav className="flex items-center space-x-2">
+            {user ? (
+              <>
+                <Button variant="ghost" asChild>
+                  <Link href="/dashboard">Dashboard</Link>
+                </Button>
+                <Button variant="ghost" asChild>
+                  <Link href="/dashboard/tasks/new">Post Task</Link>
+                </Button>
+                 <Button variant="ghost" asChild>
+                  <Link href="/leaderboard">Leaderboard</Link>
+                </Button>
+                <Button variant="outline" onClick={handleSignOut}>
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="ghost" asChild>
+                  <Link href="/login">Login</Link>
+                </Button>
+                <Button asChild>
+                  <Link href="/signup">Sign Up</Link>
+                </Button>
+              </>
+            )}
+          </nav>
+        </div>
       </div>
-    </nav>
+    </header>
   );
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
@@ -10,8 +9,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Chrome } from 'lucide-react';
 import Navbar from '@/components/Navbar';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import Logo from '@/components/logo';
 
 export default function SignupPage() {
   const [name, setName] = useState('');
@@ -59,29 +61,18 @@ export default function SignupPage() {
   };
 
   return (
-    <>
-    <Navbar />
-    <div className="w-full lg:grid lg:min-h-[calc(100vh-4rem)] lg:grid-cols-2">
-       <div className="hidden bg-muted lg:block">
-        <Image
-          src="https://picsum.photos/seed/2/1200/900"
-          data-ai-hint="workspace desk"
-          alt="Image"
-          width="1920"
-          height="1080"
-          className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-        />
-      </div>
-      <div className="flex items-center justify-center py-12">
-        <div className="mx-auto grid w-[350px] gap-6">
-          <div className="grid gap-2 text-center">
-            <h1 className="text-3xl font-bold font-headline mt-4">Sign Up</h1>
-            <p className="text-balance text-muted-foreground">
-              Enter your information to get started
-            </p>
+     <div className="flex items-center justify-center min-h-screen bg-background p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+           <div className="flex justify-center mb-4">
+            <Logo />
           </div>
+          <CardTitle className="text-2xl font-bold font-headline">Create an Account</CardTitle>
+          <CardDescription>Join our community and start earning today.</CardDescription>
+        </CardHeader>
+        <CardContent>
           <form onSubmit={handleSignUp} className="grid gap-4">
-            <div className="grid gap-2">
+             <div className="grid gap-2">
               <Label htmlFor="name">Name</Label>
               <Input id="name" placeholder="Max Robinson" required value={name} onChange={(e) => setName(e.target.value)} />
             </div>
@@ -93,24 +84,26 @@ export default function SignupPage() {
               <Label htmlFor="password">Password</Label>
               <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-full font-medium" disabled={isLoading}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Sign Up
             </Button>
-            <Button variant="outline" className="w-full" type="button" onClick={handleGoogleSignIn} disabled={isLoading}>
-              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          </form>
+          <Separator className="my-6" />
+           <Button variant="outline" className="w-full font-medium" onClick={handleGoogleSignIn} type="button" disabled={isLoading}>
+              {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Chrome className="mr-2" /> }
               Sign up with Google
             </Button>
-          </form>
-          <div className="mt-4 text-center text-sm">
+        </CardContent>
+        <CardFooter className="text-center text-sm text-muted-foreground justify-center">
+          <p>
             Already have an account?{' '}
-            <Link href="/login" className="underline">
+            <Link href="/login" className="text-primary hover:underline font-medium">
               Log in
             </Link>
-          </div>
-        </div>
-      </div>
+          </p>
+        </CardFooter>
+      </Card>
     </div>
-    </>
   );
 }

@@ -38,7 +38,7 @@ export default function PostTask() {
         recommended: false,
         createdAt: serverTimestamp()
       });
-      toast({ title: "Success!", description: "Task submitted for approval!" });
+      toast({ title: "Success!", description: "Your task has been submitted for approval." });
       setTitle("");
       setDescription("");
       setReward("");
@@ -53,11 +53,12 @@ export default function PostTask() {
 
   return (
     <ProtectedRoute>
-      <div className="max-w-2xl mx-auto py-10">
-        <Card>
+       <Navbar />
+      <div className="container max-w-2xl py-10">
+        <Card className="rounded-xl">
           <CardHeader>
-            <CardTitle className="font-headline text-2xl">Post a Task</CardTitle>
-            <CardDescription>Fill in the details below to create a new task.</CardDescription>
+            <CardTitle className="font-headline text-2xl">Post a New Task</CardTitle>
+            <CardDescription>Fill in the details below to get your task completed by the community.</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -73,9 +74,9 @@ export default function PostTask() {
                 <label htmlFor="reward">Reward ($)</label>
                 <Input id="reward" value={reward} onChange={e => setReward(e.target.value)} placeholder="e.g., 100" type="number" required min="1" />
               </div>
-              <Button type="submit" className="w-full" disabled={isSubmitting || loading}>
+              <Button type="submit" className="w-full font-medium text-lg py-6" disabled={isSubmitting || loading}>
                 {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Submit Task
+                Submit for Approval
               </Button>
             </form>
           </CardContent>

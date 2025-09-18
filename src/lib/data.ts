@@ -5,20 +5,20 @@ export type Task = {
   title: string
   description: string
   reward: number
-  status: 'Available' | 'In Progress' | 'Completed' | 'Pending Approval'
+  status: 'approved' | 'pending' | 'completed' | 'in-progress'
   category: 'Design' | 'Writing' | 'Development' | 'Marketing' | 'Data Entry'
   isRecommended?: boolean
 }
 
 export const tasks: Task[] = [
-  { id: 'TASK-8782', title: 'Create a logo for a new startup', description: 'Design a modern and minimalist logo for a tech startup.', reward: 150, status: 'Available', category: 'Design', isRecommended: true },
-  { id: 'TASK-7878', title: 'Write a blog post about AI', description: 'A 1000-word article on the future of Artificial Intelligence.', reward: 75, status: 'Available', category: 'Writing' },
-  { id: 'TASK-4582', title: 'Develop a simple landing page', description: 'Code a responsive landing page using HTML/CSS and JavaScript.', reward: 250, status: 'Available', category: 'Development' },
-  { id: 'TASK-1290', title: 'Transcribe a 10-minute audio file', description: 'Accurately transcribe an interview recording.', reward: 20, status: 'Available', category: 'Data Entry' },
-  { id: 'TASK-3132', title: 'Create social media content', description: 'Generate 5 posts for an Instagram campaign.', reward: 50, status: 'Completed', category: 'Marketing' },
-  { id: 'TASK-5555', title: 'Debug a React component', description: 'Find and fix a bug in a given React component.', reward: 100, status: 'In Progress', category: 'Development' },
-  { id: 'TASK-6811', title: 'Proofread a document', description: 'Check a 5-page document for grammatical errors.', reward: 30, status: 'Completed', category: 'Writing' },
-  { id: 'TASK-9876', title: 'Design a banner for a website', description: 'Create a visually appealing banner for a homepage.', reward: 60, status: 'Available', category: 'Design', isRecommended: true },
+  { id: 'TASK-8782', title: 'Create a logo for a new startup', description: 'Design a modern and minimalist logo for a tech startup.', reward: 150, status: 'approved', category: 'Design', isRecommended: true },
+  { id: 'TASK-7878', title: 'Write a blog post about AI', description: 'A 1000-word article on the future of Artificial Intelligence.', reward: 75, status: 'approved', category: 'Writing' },
+  { id: 'TASK-4582', title: 'Develop a simple landing page', description: 'Code a responsive landing page using HTML/CSS and JavaScript.', reward: 250, status: 'approved', category: 'Development' },
+  { id: 'TASK-1290', title: 'Transcribe a 10-minute audio file', description: 'Accurately transcribe an interview recording.', reward: 20, status: 'approved', category: 'Data Entry' },
+  { id: 'TASK-3132', title: 'Create social media content', description: 'Generate 5 posts for an Instagram campaign.', reward: 50, status: 'completed', category: 'Marketing' },
+  { id: 'TASK-5555', title: 'Debug a React component', description: 'Find and fix a bug in a given React component.', reward: 100, status: 'in-progress', category: 'Development' },
+  { id: 'TASK-6811', title: 'Proofread a document', description: 'Check a 5-page document for grammatical errors.', reward: 30, status: 'completed', category: 'Writing' },
+  { id: 'TASK-9876', title: 'Design a banner for a website', description: 'Create a visually appealing banner for a homepage.', reward: 60, status: 'approved', category: 'Design', isRecommended: true },
 ]
 
 export type User = {
@@ -30,10 +30,13 @@ export type User = {
   totalEarnings: number
 }
 
-export const users = [
-  { id: 'USR-001', name: 'Alex Johnson', avatarUrl: 'https://picsum.photos/seed/101/40/40', email: 'alex@example.com', tasksCompleted: 12, totalEarnings: 1250 },
-  { id: 'USR-002', name: 'Maria Garcia', avatarUrl: 'https://picsum.photos/seed/102/40/40', email: 'maria@example.com', tasksCompleted: 8, totalEarnings: 820 },
-  { id: 'USR-003', name: 'David Smith', avatarUrl: 'https://picsum.photos/seed/103/40/40', email: 'david@example.com', tasksCompleted: 21, totalEarnings: 2300 },
+export const users: User[] = [
+  { id: 'USR-001', name: 'Alex Johnson', avatarUrl: 'https://i.pravatar.cc/40?u=usr-001', email: 'alex@example.com', tasksCompleted: 12, totalEarnings: 1250 },
+  { id: 'USR-002', name: 'Maria Garcia', avatarUrl: 'https://i.pravatar.cc/40?u=usr-002', email: 'maria@example.com', tasksCompleted: 8, totalEarnings: 820 },
+  { id: 'USR-003', name: 'David Smith', avatarUrl: 'https://i.pravatar.cc/40?u=usr-003', email: 'david@example.com', tasksCompleted: 21, totalEarnings: 2300 },
+  { id: 'USR-004', name: 'Sarah Chen', avatarUrl: 'https://i.pravatar.cc/40?u=usr-004', email: 'sarah@example.com', tasksCompleted: 15, totalEarnings: 1800 },
+  { id: 'USR-005', name: 'Michael Brown', avatarUrl: 'https://i.pravatar.cc/40?u=usr-005', email: 'michael@example.com', tasksCompleted: 5, totalEarnings: 450 },
+
 ]
 
 export const outstandingUsers = [
